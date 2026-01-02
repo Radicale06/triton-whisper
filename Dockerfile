@@ -1,8 +1,11 @@
 FROM nvcr.io/nvidia/tritonserver:24.10-py3
 
 # Install Python dependencies for Whisper and XTTS
-RUN pip3 install --upgrade pip && \
-    pip3 install transformers>=4.39.0 \
+# Use --force-reinstall for problematic packages
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip install --force-reinstall --no-deps blinker && \
+    python3 -m pip install \
+                transformers>=4.39.0 \
                 torch>=2.1.0 \
                 torchaudio \
                 accelerate \
