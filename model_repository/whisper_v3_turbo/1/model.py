@@ -178,15 +178,22 @@ class TritonPythonModel:
             # Extract language if auto-detected
             if not language or language == "auto":
                 # Try to extract language from special tokens
-                with torch.no_grad():
-                    # Get language token (usually the first special token)
-                    lang_token_id = predicted_ids[0][1].item()  # Skip <|startoftranscript|>
-                    lang_token = self.processor.tokenizer.decode([lang_token_id])
-                    # Extract language code from token like "<|en|>"
-                    if lang_token.startswith("<|") and lang_token.endswith("|>"):
-                        detected_lang = lang_token[2:-2]
-                    else:
-                        detected_lang = "unknown"
+                try:
+                    with torch.no_grad():
+                        # Check if we have enough tokens
+                        if predicted_ids.shape[1] > 1:
+                            # Get language token (usually the first special token)
+                            lang_token_id = predicted_ids[0][1].item()  # Skip <|startoftranscript|>
+                            lang_token = self.processor.tokenizer.decode([lang_token_id])
+                            # Extract language code from token like "<|en|>"
+                            if lang_token.startswith("<|") and lang_token.endswith("|>"):
+                                detected_lang = lang_token[2:-2]
+                            else:
+                                detected_lang = "unknown"
+                        else:
+                            detected_lang = "unknown"
+                except:
+                    detected_lang = "unknown"
             else:
                 detected_lang = language
             

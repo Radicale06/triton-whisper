@@ -10,7 +10,7 @@ from triton_whisper_client import TritonWhisperClient
 # Connect to server
 print("Connecting to Triton...")
 client = TritonWhisperClient(
-    server_url="0.tcp.ngrok.io:10877",
+    server_url="4.tcp.ngrok.io:18723",
     model_name="whisper_v3_turbo",
     protocol="grpc"
 )
