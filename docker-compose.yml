@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  triton-whisper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: triton-whisper-v3-turbo:latest
+    container_name: triton-whisper-server
+    ports:
+      - "8000:8000"  # HTTP
+      - "8001:8001"  # gRPC  
+      - "8002:8002"  # Metrics
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - whisper-cache:/workspace/.cache
+      - ./model_repository:/workspace/model_repository
+    shm_size: '8gb'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack:
+        soft: 67108864
+        hard: 67108864
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v2/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 300s  # Model loading can take time
+
+volumes:
+  whisper-cache:
+    driver: local

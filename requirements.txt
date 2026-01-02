@@ -1,0 +1,4 @@
+# Triton client requirements
+tritonclient[all]>=2.34.0
+numpy>=1.21.0
+grpcio>=1.48.0
