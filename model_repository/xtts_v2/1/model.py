@@ -64,6 +64,10 @@ class TritonPythonModel:
                 start_time = time.time()
                 
                 try:
+                    import os
+                    # Set environment to agree to TOS automatically
+                    os.environ['COQUI_TOS_AGREED'] = '1'
+                    
                     from TTS.api import TTS
                     
                     # Load XTTS v2
