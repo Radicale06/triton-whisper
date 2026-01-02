@@ -37,7 +37,7 @@ class TritonWhisperClient:
         self.server_url = server_url
         self.model_name = model_name
         self.protocol = protocol.lower()
-        self.timeout = timeout
+        self.timeout = int(timeout)
         
         # Initialize client
         if self.protocol == "grpc":

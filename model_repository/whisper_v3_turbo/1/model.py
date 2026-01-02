@@ -39,7 +39,7 @@ class TritonPythonModel:
         
         # Generation config
         self.generation_config = {
-            "max_new_tokens": 448,
+            "max_new_tokens": 444,  # Reduced from 448 to leave room for special tokens
             "num_beams": 1,
             "do_sample": False,
             "temperature": 0.0,
