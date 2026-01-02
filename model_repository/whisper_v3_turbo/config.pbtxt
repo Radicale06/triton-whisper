@@ -37,7 +37,4 @@ instance_group [
   }
 ]
 
-parameters: {
-  key: "EXECUTION_ENV_PATH",
-  value: {string_value: "/opt/tritonserver/backends/python/triton_python_backend_utils.py"}
-}
+# Remove the EXECUTION_ENV_PATH parameter as it's causing issues

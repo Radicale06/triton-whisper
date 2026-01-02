@@ -1,13 +1,15 @@
 FROM nvcr.io/nvidia/tritonserver:24.10-py3
 
 # Install Python dependencies for Whisper
-RUN pip install --upgrade pip && \
-    pip install transformers>=4.39.0 \
+RUN pip3 install --upgrade pip && \
+    pip3 install transformers>=4.39.0 \
                 torch>=2.1.0 \
                 torchaudio \
                 accelerate \
                 safetensors \
-                sentencepiece
+                sentencepiece \
+                numpy \
+                scipy
 
 # Create directories
 RUN mkdir -p /workspace/model_repository
@@ -29,7 +31,7 @@ ENV CUDA_VISIBLE_DEVICES=0
 RUN mkdir -p /workspace/.cache
 
 # Run setup script
-RUN python /workspace/setup_whisper_model.py
+RUN python3 /workspace/setup_whisper_model.py
 
 # Expose Triton ports
 EXPOSE 8000 8001 8002
@@ -37,7 +39,7 @@ EXPOSE 8000 8001 8002
 # Start Triton Server
 CMD ["tritonserver", \
      "--model-repository=/workspace/model_repository", \
+     "--allow-metrics=true", \
      "--allow-gpu-metrics=true", \
-     "--gpu-metrics-interval=1000", \
      "--log-verbose=1", \
      "--strict-model-config=false"]
