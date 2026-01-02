@@ -1,6 +1,6 @@
 FROM nvcr.io/nvidia/tritonserver:24.10-py3
 
-# Install Python dependencies for Whisper
+# Install Python dependencies for Whisper and XTTS
 RUN pip3 install --upgrade pip && \
     pip3 install transformers>=4.39.0 \
                 torch>=2.1.0 \
@@ -9,7 +9,8 @@ RUN pip3 install --upgrade pip && \
                 safetensors \
                 sentencepiece \
                 numpy \
-                scipy
+                scipy \
+                TTS>=0.22.0
 
 # Create directories
 RUN mkdir -p /workspace/model_repository

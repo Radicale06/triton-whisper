@@ -17,7 +17,7 @@ def test_with_audio_file(audio_file_path=None):
     # Initialize client
     print("🚀 Connecting to Triton server...")
     client = TritonWhisperClient(
-        server_url="0.tcp.ngrok.io:10877",  # gRPC port
+        server_url="4.tcp.ngrok.io:18723",  # gRPC port
         model_name="whisper_v3_turbo"
     )
     
